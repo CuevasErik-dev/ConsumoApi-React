@@ -1,8 +1,10 @@
 import React from 'react';
-import { Users, BookOpen, Calendar, UserCircle, BarChart, PieChart as PieIcon, TrendingUp, Activity } from 'lucide-react';
-import { BarChart as ReBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts';
+import { Users, BookOpen, Calendar, UserCircle, } from 'lucide-react';
+import { BarChart as ReBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 
-// Datos estáticos para las gráficas
+import TarjetaInf from '../../components/reutilizables/TarjetaInf';
+
+// Datos para las gráficas
 const alumnosData = [
   { name: '1er Sem', total: 180 },
   { name: '2do Sem', total: 165 },
@@ -69,36 +71,9 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Tarjetas de Estadísticas Rápidas */}
-      <div className="info-card">
-        <div className="info-card-icon icon-blue">
-          <Users size={24} />
-        </div>
-        <div className="info-card-data">
-          <h3>1,245</h3>
-          <p>Total Alumnos</p>
-        </div>
-      </div>
-
-      <div className="info-card">
-        <div className="info-card-icon icon-green">
-          <BookOpen size={24} />
-        </div>
-        <div className="info-card-data">
-          <h3>42</h3>
-          <p>Materias Activas</p>
-        </div>
-      </div>
-
-      <div className="info-card">
-        <div className="info-card-icon icon-purple">
-          <Calendar size={24} />
-        </div>
-        <div className="info-card-data">
-          <h3>8</h3>
-          <p>Semestres Totales</p>
-        </div>
-      </div>
+      <TarjetaInf icon={Users} titulo="Total Alumnos" valor="1,245" variante="blue" />
+      <TarjetaInf icon={BookOpen} titulo="Materias Activas" valor="42" variante="green" />
+      <TarjetaInf icon={Calendar} titulo="Semestres Totales" valor="8" variante="purple" />
 
       {/* Gráfica: Alumnos por Semestre */}
       <div className="chart-card span-2">
@@ -119,7 +94,6 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Gráfica: Materias por Créditos */}
       <div className="chart-card">
         <div className="chart-header">
           <h4>Materias por Créditos</h4>
@@ -128,27 +102,19 @@ const DashboardPage = () => {
         <div style={{ width: '100%', height: 280 }}>
           <ResponsiveContainer>
             <PieChart>
-              <Pie
-                data={materiasCreditos}
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={5}
-                dataKey="materias"
-                nameKey="name"
-                isAnimationActive={false}
-              >
+              <Pie data={materiasCreditos} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="materias" nameKey="name"
+                isAnimationActive={false} >
                 {materiasCreditos.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-              <Legend verticalAlign="bottom" height={36}/>
+              <Legend verticalAlign="bottom" height={36} />
             </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* Gráfica: Análisis de Semestres */}
       <div className="chart-card">
         <div className="chart-header">
           <h4>Análisis de Semestres</h4>
@@ -168,7 +134,6 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Gráfica: Nuevos Alumnos por Año */}
       <div className="chart-card span-2">
         <div className="chart-header">
           <h4>Nuevos Alumnos por Año</h4>
