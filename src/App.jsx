@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 
 // Importación de las páginas siguiendo la arquitectura de capas
@@ -13,6 +14,7 @@ import './styles.css';
 function App() {
   return (
     <div className="app-container">
+      <Toaster position="top-right" reverseOrder={false} />
       <Navbar />
       <main className="content">
         <Routes>
