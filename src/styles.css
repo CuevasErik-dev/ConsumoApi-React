@@ -114,7 +114,7 @@ body {
 
 @media (max-width: 1366px) {
   .content {
-    padding: 1rem; /* Menos espacio desperdiciado a los lados */
+    padding: 1rem; 
   }
 }
 
@@ -263,8 +263,6 @@ body {
   font-weight: 600;
 }
 
-/* Reusable Components Styles */
-
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -329,8 +327,8 @@ body {
 
 .data-table th {
   background-color: #f8fafc;
-  padding: 1rem 1rem; /* Reducido de 1.5rem */
-  font-size: 0.7rem; /* Un poco más pequeño */
+  padding: 1rem 1rem; 
+  font-size: 0.7rem; 
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 700;
@@ -339,7 +337,7 @@ body {
 }
 
 .data-table td {
-  padding: 0.85rem 1rem; /* Reducido para ahorrar espacio horizontal */
+  padding: 0.85rem 1rem; 
   font-size: 0.85rem;
   color: #334155;
   border-bottom: 1px solid #f1f5f9;
@@ -372,7 +370,7 @@ body {
 /* Alumnos Page Specific Styles */
 .alumnos-layout {
   display: grid;
-  grid-template-columns: 1fr minmax(300px, 380px); /* El formulario puede encogerse hasta 300px */
+  grid-template-columns: 1fr minmax(300px, 380px);
   gap: 1.25rem;
   align-items: start;
   width: 100%;
@@ -387,7 +385,7 @@ body {
   }
 }
 
-@media (max-width: 1150px) { /* El salto ocurre un poco antes para evitar amontonamiento */
+@media (max-width: 1150px) { 
   .alumnos-layout {
     grid-template-columns: 1fr;
   }
