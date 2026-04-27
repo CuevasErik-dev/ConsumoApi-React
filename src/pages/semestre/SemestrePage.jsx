@@ -35,7 +35,8 @@ const SemestrePage = () => {
       toast.success('Semestre actualizado');
       setEditingId(null);
     } else {
-      setSemestres([...semestres, { ...data, id: Date.now() }]);
+      const newId = semestres.length > 0 ? Math.max(...semestres.map(s => s.id)) + 1 : 1;
+      setSemestres([...semestres, { ...data, id: newId }]);
       toast.success('Semestre guardado');
     }
     reset();

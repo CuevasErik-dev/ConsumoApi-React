@@ -10,7 +10,7 @@ import Boton from '../../components/reutilizables/Boton';
 import Modal from '../../components/reutilizables/Modal';
 
 const alumnoSchema = z.object({
-  imagen: z.string().url('Debe ser una URL válida').or(z.literal('')),
+  imagenURL: z.string().url('Debe ser una URL válida').or(z.literal('')),
   nombre: z.string()
     .min(1, 'Requerido')
     .max(10, 'Máximo 10 caracteres')
@@ -23,21 +23,24 @@ const alumnoSchema = z.object({
   telefono: z.string()
     .length(10, 'Deben ser 10 números')
     .regex(/^\d+$/, 'Solo números'),
-  numControl: z.string()
-    .length(8, 'Deben ser 8 números')
+  numeroControl: z.string()
+    .min(8, 'Mínimo 8 números')
+    .max(10, 'Máximo 10 números')
     .regex(/^\d+$/, 'Solo números'),
+  carrera: z.string().min(1, 'Selecciona una carrera'),
 });
 
 const AlumnosPage = () => {
   const [alumnos, setAlumnos] = useState([
     {
       id: 1,
-      imagen: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-      numControl: '22620050',
+      imagenURL: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+      numeroControl: '22620050',
       nombre: 'Ameli',
       apellido: 'Reyes',
       email: 'amelireyes@gmail.com',
-      telefono: '9531236651'
+      telefono: '9531236651',
+      carrera: 'Ingeniería en Sistemas Computacionales'
     }
   ]);
 
@@ -47,10 +50,10 @@ const AlumnosPage = () => {
 
   const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(alumnoSchema),
-    defaultValues: { imagen: '', nombre: '', apellido: '', email: '', telefono: '', numControl: '' }
+    defaultValues: { imagenURL: '', nombre: '', apellido: '', email: '', telefono: '', numeroControl: '', carrera: '' }
   });
 
-  const imagenUrl = watch('imagen');
+  const imagenUrl = watch('imagenURL');
 
   const soloNumeros = (e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); };
   const soloLetras = (e) => { e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''); };
@@ -61,7 +64,8 @@ const AlumnosPage = () => {
       toast.success('Alumno actualizado');
       setEditingId(null);
     } else {
-      setAlumnos([...alumnos, { ...data, id: Date.now() }]);
+      const newId = alumnos.length > 0 ? Math.max(...alumnos.map(a => a.id)) + 1 : 1;
+      setAlumnos([...alumnos, { ...data, id: newId }]);
       toast.success('Alumno registrado');
     }
     reset();
@@ -86,15 +90,16 @@ const AlumnosPage = () => {
 
   const columnas = [
     {
-      key: 'imagen', label: 'Imagen', render: (val) => (
+      key: 'imagenURL', label: 'Imagen', render: (val) => (
         <div className="table-avatar">{val ? <img src={val} alt="Perfil" /> : <User size={18} />}</div>
       )
     },
-    { key: 'numControl', label: 'NumControl' },
+    { key: 'numeroControl', label: 'NumControl' },
     { key: 'nombre', label: 'Nombre' },
     { key: 'apellido', label: 'Apellido' },
     { key: 'email', label: 'Correo Electronico' },
     { key: 'telefono', label: 'Telefono' },
+    { key: 'carrera', label: 'Carrera', className: 'allow-wrap' },
   ];
 
   return (
@@ -119,8 +124,8 @@ const AlumnosPage = () => {
               <div className="avatar-circle">{imagenUrl ? <img src={imagenUrl} alt="Preview" /> : <Upload size={32} />}</div>
               <div style={{ flex: 1 }}>
                 <p style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.5rem' }}>Enlace (URL) de la imagen:</p>
-                <input type="text" className={`input-base ${errors.imagen ? 'input-error' : ''}`} placeholder="https://ejemplo.com/foto.jpg" {...register('imagen')} />
-                {errors.imagen && <span className="error-message">{errors.imagen.message}</span>}
+                <input type="text" className={`input-base ${errors.imagenURL ? 'input-error' : ''}`} placeholder="https://ejemplo.com/foto.jpg" {...register('imagenURL')} />
+                {errors.imagenURL && <span className="error-message">{errors.imagenURL.message}</span>}
               </div>
             </div>
           </div>
@@ -148,15 +153,30 @@ const AlumnosPage = () => {
             </div>
             <div className="form-group">
               <label>Teléfono:</label>
-              <input type="text" maxLength={10} className={`input-base ${errors.telefono ? 'input-error' : ''}`} placeholder="ej. 2221234567" {...register('telefono')} onInput={soloNumeros} />
+              <input type="text" maxLength={10} className={`input-base ${errors.telefono ? 'input-error' : ''}`} placeholder="ej. 9531236651" {...register('telefono')} onInput={soloNumeros} />
               {errors.telefono && <span className="error-message">{errors.telefono.message}</span>}
             </div>
           </div>
 
           <p className="form-section-title">Numero de Control (8 dígitos):</p>
           <div className="form-group">
-            <input type="text" maxLength={8} className={`input-base ${errors.numControl ? 'input-error' : ''}`} placeholder="ej. 22620050" {...register('numControl')} onInput={soloNumeros} />
-            {errors.numControl && <span className="error-message">{errors.numControl.message}</span>}
+            <input type="text" maxLength={8} className={`input-base ${errors.numeroControl ? 'input-error' : ''}`} placeholder="ej. 22620050" {...register('numeroControl')} onInput={soloNumeros} />
+            {errors.numeroControl && <span className="error-message">{errors.numeroControl.message}</span>}
+          </div>
+
+          <p className="form-section-title">Carrera:</p>
+          <div className="form-group">
+            <select className={`input-base ${errors.carrera ? 'input-error' : ''}`} {...register('carrera')}>
+              <option value="">Selecciona una carrera</option>
+              <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
+              <option value="Ingeniería Civil">Ingeniería Civil</option>
+              <option value="Ingeniería en Gestión Empresarial">Ingeniería en Gestión Empresarial</option>
+              <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+              <option value="Ingeniería en Mecatrónica">Ingeniería en Mecatrónica</option>
+              <option value="Licenciatura en Administración">Licenciatura en Administración</option>
+              <option value="Licenciatura en Arquitectura">Licenciatura en Arquitectura</option>
+            </select>
+            {errors.carrera && <span className="error-message">{errors.carrera.message}</span>}
           </div>
 
           <div className="form-actions">
@@ -169,11 +189,12 @@ const AlumnosPage = () => {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} titulo="Detalles del Alumno">
         {selectedAlumno && (
           <div className="alumno-details">
-            <div className="detail-row"><span className="detail-label">NumControl:</span><span className="detail-value">{selectedAlumno.numControl}</span></div>
+            <div className="detail-row"><span className="detail-label">NumControl:</span><span className="detail-value">{selectedAlumno.numeroControl}</span></div>
             <div className="detail-row"><span className="detail-label">Nombre:</span><span className="detail-value">{selectedAlumno.nombre}</span></div>
             <div className="detail-row"><span className="detail-label">Apellido:</span><span className="detail-value">{selectedAlumno.apellido}</span></div>
             <div className="detail-row"><span className="detail-label">Correo:</span><span className="detail-value">{selectedAlumno.email}</span></div>
             <div className="detail-row"><span className="detail-label">Teléfono:</span><span className="detail-value">{selectedAlumno.telefono}</span></div>
+            <div className="detail-row"><span className="detail-label">Carrera:</span><span className="detail-value">{selectedAlumno.carrera}</span></div>
           </div>
         )}
       </Modal>

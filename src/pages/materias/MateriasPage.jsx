@@ -11,11 +11,12 @@ import Modal from '../../components/reutilizables/Modal';
 
 const materiaSchema = z.object({
   nombre: z.string()
-    .min(3, 'Nombre muy corto')
+    .min(1, 'El nombre de la materia es obligatorio')
     .max(35, 'Máximo 35 caracteres'),
   creditos: z.string()
-    .length(1, 'Solo 1 número')
-    .regex(/^\d+$/, 'Solo números'),
+    .min(1, 'Requerido')
+    .regex(/^\d+$/, 'Solo números')
+    .refine((val) => parseInt(val) >= 1, { message: 'La materia debe tener al menos 1 crédito' }),
   semestre: z.string().min(1, 'Seleccione un semestre'),
 });
 
@@ -46,7 +47,8 @@ const MateriasPage = () => {
       toast.success('Materia actualizada');
       setEditingId(null);
     } else {
-      setMaterias([...materias, { ...data, id: Date.now() }]);
+      const newId = materias.length > 0 ? Math.max(...materias.map(m => m.id)) + 1 : 1;
+      setMaterias([...materias, { ...data, id: newId }]);
       toast.success('Materia guardada');
     }
     reset();
