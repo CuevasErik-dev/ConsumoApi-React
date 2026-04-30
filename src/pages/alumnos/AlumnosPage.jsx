@@ -33,23 +33,62 @@ const AlumnosPage = () => {
 
   return (
     <div className="alumnos-layout">
-      <AlumnosList alumnos={alumnos} onDelete={handleDelete} onView={handleView} />
-      <AlumnoForm onSave={handleSave} editingAlumno={editingAlumno} onCancel={handleCancel} />
+      <AlumnosList 
+        alumnos={alumnos} 
+        onDelete={handleDelete} 
+        onView={handleView}
+        onEdit={handleEdit}
+      />
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} titulo="Detalles del Alumno">
+      <AlumnoForm 
+        onSave={handleSave} 
+        editingAlumno={editingAlumno} 
+        onCancel={handleCancel} 
+      />
+
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        titulo="Detalles del Alumno"
+      >
         {selectedAlumno && (
           <div className="alumno-details">
-            <div className="detail-row"><span className="detail-label">NumControl:</span><span className="detail-value">{selectedAlumno.numeroControl}</span></div>
-            <div className="detail-row"><span className="detail-label">Nombre:</span><span className="detail-value">{selectedAlumno.nombre}</span></div>
-            <div className="detail-row"><span className="detail-label">Apellido:</span><span className="detail-value">{selectedAlumno.apellido}</span></div>
-            <div className="detail-row"><span className="detail-label">Correo:</span><span className="detail-value">{selectedAlumno.email}</span></div>
-            <div className="detail-row"><span className="detail-label">Teléfono:</span><span className="detail-value">{selectedAlumno.telefono}</span></div>
-            <div className="detail-row"><span className="detail-label">Carrera:</span><span className="detail-value">{selectedAlumno.carrera}</span></div>
+
+            <div className="detail-row">
+              <span className="detail-label">NumControl:</span>
+              <span className="detail-value">{selectedAlumno.numControl}</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="detail-label">Nombre:</span>
+              <span className="detail-value">{selectedAlumno.nombre}</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="detail-label">Apellido:</span>
+              <span className="detail-value">{selectedAlumno.apellido}</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="detail-label">Correo:</span>
+              <span className="detail-value">{selectedAlumno.correo}</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="detail-label">Teléfono:</span>
+              <span className="detail-value">{selectedAlumno.telefono}</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="detail-label">Carrera:</span>
+              <span className="detail-value">{selectedAlumno.carrera}</span>
+            </div>
+
           </div>
         )}
       </Modal>
     </div>
-  );
-};
+   );
+}
 
 export default AlumnosPage;
