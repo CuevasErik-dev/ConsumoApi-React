@@ -7,19 +7,38 @@ const MateriasList = ({ materias, onEdit, onDelete, onView }) => {
     { key: 'id', label: 'ID' },
     { key: 'nombre', label: 'Nombre de la Materia' },
     { key: 'creditos', label: 'Creditos' },
-    { key: 'semestre', label: 'Semestre' },
+
+    // 🔥 CORRECCIÓN AQUÍ
+    {
+      key: 'semestre',
+      label: 'Semestre',
+      render: (val) => val?.id
+    },
   ];
 
   return (
     <div className="page-card">
-      <div className="page-header"><h2>Lista de Materias</h2></div>
-      <Tabla columnas={columnas} datos={materias} acciones={(materia) => (
-        <>
-          <button className="icon-btn text-slate-600" onClick={() => onView(materia)}><Eye size={18} /></button>
-          <button className="icon-btn text-blue-600" onClick={() => onEdit(materia)}><Pencil size={18} /></button>
-          <button className="icon-btn text-red-600" onClick={() => onDelete(materia.id)}><Trash2 size={18} /></button>
-        </>
-      )} />
+      <div className="page-header">
+        <h2>Lista de Materias</h2>
+      </div>
+
+      <Tabla
+        columnas={columnas}
+        datos={materias}
+        acciones={(materia) => (
+          <>
+            <button className="icon-btn text-slate-600" onClick={() => onView(materia)}>
+              <Eye size={18} />
+            </button>
+            <button className="icon-btn text-blue-600" onClick={() => onEdit(materia)}>
+              <Pencil size={18} />
+            </button>
+            <button className="icon-btn text-red-600" onClick={() => onDelete(materia.id)}>
+              <Trash2 size={18} />
+            </button>
+          </>
+        )}
+      />
     </div>
   );
 };
