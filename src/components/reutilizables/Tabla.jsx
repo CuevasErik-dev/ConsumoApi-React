@@ -9,7 +9,7 @@ const Tabla = ({ columnas, datos, acciones }) => {
             {columnas.map((col) => (
               <th key={col.key}>{col.label}</th>
             ))}
-            {acciones && <th className="text-right">Acciones</th>}
+            {acciones && <th className="text-center">Acciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -17,12 +17,12 @@ const Tabla = ({ columnas, datos, acciones }) => {
             datos.map((item, indice) => (
               <tr key={item.id || indice}>
                 {columnas.map((col) => (
-                  <td key={`${indice}-${col.key}`}>
-                    {col.render ? col.render(item[col.key], item) : item[col.key]}
+                  <td key={`${indice}-${col.key}`} className={col.className || ''}>
+                    {col.render ? col.render(item[col.key], item, indice) : item[col.key]}
                   </td>
                 ))}
                 {acciones && (
-                  <td className="text-right">
+                  <td className="text-center">
                     <div className="table-actions">
                       {acciones(item)}
                     </div>
