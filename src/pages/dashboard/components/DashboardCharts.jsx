@@ -11,7 +11,7 @@ export const AlumnosChart = () => (
       <span className="chart-badge">Distribución</span>
     </div>
     <div style={{ width: '100%', height: 280 }}>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="100%" minWidth={1}>
         <ReBarChart data={alumnosData}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
@@ -31,7 +31,7 @@ export const MateriasChart = () => (
       <span className="chart-badge">Proporción</span>
     </div>
     <div style={{ width: '100%', height: 280 }}>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="100%" minWidth={1}>
         <PieChart>
           <Pie data={materiasCreditos} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="materias" nameKey="name" isAnimationActive={false}>
             {materiasCreditos.map((entry, index) => (
@@ -53,7 +53,7 @@ export const SemestresChart = () => (
       <span className="chart-badge">Datos</span>
     </div>
     <div style={{ width: '100%', height: 280 }}>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="100%" minWidth={1}>
         <ReBarChart data={analisisSemestres} layout="vertical">
           <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
           <XAxis type="number" hide />
@@ -74,7 +74,7 @@ export const TendenciaChart = () => (
       <span className="chart-badge">Tendencia</span>
     </div>
     <div style={{ width: '100%', height: 280 }}>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="100%" minWidth={1}>
         <LineChart data={nuevosAlumnosYear}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />

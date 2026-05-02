@@ -4,7 +4,7 @@ import Tabla from '../../components/reutilizables/Tabla';
 
 const SemestreList = ({ semestres, onEdit, onDelete, onView }) => {
   const columnas = [
-    { key: 'id', label: 'ID' },
+    { key: 'id', label: 'ID', render: (_, __, index) => index + 1 },
     { key: 'nombre', label: 'Nombre del Semestre' },
   ];
 

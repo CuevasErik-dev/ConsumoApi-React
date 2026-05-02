@@ -18,7 +18,7 @@ const Tabla = ({ columnas, datos, acciones }) => {
               <tr key={item.id || indice}>
                 {columnas.map((col) => (
                   <td key={`${indice}-${col.key}`} className={col.className || ''}>
-                    {col.render ? col.render(item[col.key], item) : item[col.key]}
+                    {col.render ? col.render(item[col.key], item, indice) : item[col.key]}
                   </td>
                 ))}
                 {acciones && (
