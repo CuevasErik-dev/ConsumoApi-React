@@ -652,3 +652,74 @@ select.input-base option {
   flex: 1;
   color: #1e293b;
 }
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chart-card.span-2 {
+    grid-column: span 2;
+  }
+  .banner-card {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-card.span-2, .banner-card {
+    grid-column: span 1;
+  }
+  .banner-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .banner-stats {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 0;
+    padding-top: 1.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .nav-divider {
+    display: none;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .info-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.25rem;
+  }
+  .nav-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
