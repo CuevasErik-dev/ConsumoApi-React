@@ -1,97 +1,65 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-
-const API = "http://localhost:8080/alumnos";
+import Swal from 'sweetalert2';
+import { getAlumnos as apiGetAlumnos, createAlumno, updateAlumno as apiUpdateAlumno, deleteAlumno as apiDeleteAlumno } from '../service/alumnoApi';
 
 export const useAlumnos = () => {
   const [alumnos, setAlumnos] = useState([]);
 
-  // 🔹 Cargar alumnos al iniciar
   useEffect(() => {
     cargarAlumnos();
   }, []);
 
   const cargarAlumnos = async () => {
     try {
-      const res = await fetch(`${API}/traer-alumnos`);
-
-      // 🔥 VALIDACIÓN REAL (esto evita tu error genérico)
-      if (!res.ok) {
-        throw new Error(`Error HTTP: ${res.status}`);
-      }
-
-      const data = await res.json();
+      const data = await apiGetAlumnos();
       setAlumnos(data);
-
     } catch (error) {
       console.error("Error real:", error);
       toast.error("Error al conectar con el backend");
     }
   };
-
-  // 🔹 AGREGAR
   const addAlumno = async (data) => {
     try {
-      const res = await fetch(`${API}/insertar-alumnos`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (!res.ok) {
-        throw new Error("Error al guardar");
-      }
-
+      await createAlumno(data);
       toast.success('Alumno registrado');
       cargarAlumnos();
-
     } catch (error) {
       console.error(error);
       toast.error("No se pudo guardar");
     }
   };
 
-  // 🔹 ACTUALIZAR
   const updateAlumno = async (id, data) => {
     try {
-      const res = await fetch(`${API}/editar-alumnos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (!res.ok) {
-        throw new Error("Error al actualizar");
-      }
-
+      await apiUpdateAlumno(id, data);
       toast.success('Alumno actualizado');
       cargarAlumnos();
-
     } catch (error) {
       console.error(error);
       toast.error("No se pudo actualizar");
     }
   };
 
-  // 🔹 ELIMINAR
   const deleteAlumno = async (id) => {
-    if (window.confirm('¿Estás seguro de eliminar este alumno?')) {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás recuperar este alumno!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3b82f6',
+      cancelButtonColor: '#ef4444',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      background: '#1e293b',
+      color: '#f8fafc'
+    });
+
+    if (result.isConfirmed) {
       try {
-        const res = await fetch(`${API}/eliminar-alumnos/${id}`, {
-          method: "DELETE"
-        });
-
-        if (!res.ok) {
-          throw new Error("Error al eliminar");
-        }
-
+        await apiDeleteAlumno(id);
         toast.success('Alumno eliminado');
         cargarAlumnos();
-
       } catch (error) {
         console.error(error);
         toast.error("No se pudo eliminar");

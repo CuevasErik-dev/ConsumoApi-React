@@ -11,29 +11,19 @@ const MateriasPage = () => {
   const [selectedMateria, setSelectedMateria] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 🔥 CORRECCIÓN CLAVE AQUÍ
   const handleSave = (data) => {
-
-    const materiaFormateada = {
-      ...data,
-      creditos: Number(data.creditos), // asegura número
-      semestre: {
-        id: Number(data.semestre) // 👈 AQUÍ SE ARREGLA EL ERROR DEL BACKEND
-      }
-    };
-
     if (editingMateria) {
-      updateMateria(editingMateria.id, materiaFormateada);
+      updateMateria(editingMateria.id, data);
       setEditingMateria(null);
     } else {
-      addMateria(materiaFormateada);
+      addMateria(data);
     }
   };
 
   const handleEdit = (materia) => {
     setEditingMateria({
       ...materia,
-      semestre: materia.semestre?.id // 👈 para que el form lo muestre bien
+      semestre: materia.semestre?.id 
     });
   };
 
@@ -97,7 +87,7 @@ const MateriasPage = () => {
             <div className="detail-row">
               <span className="detail-label">Semestre:</span>
               <span className="detail-value">
-                {selectedMateria.semestre?.id}
+                {selectedMateria.semestre?.nombre || '-'}
               </span>
             </div>
 

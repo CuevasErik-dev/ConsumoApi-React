@@ -29,7 +29,7 @@ export const materiaSchema = z.object({
     .min(1, 'Requerido')
     .regex(/^\d+$/, 'Solo números')
     .refine((val) => parseInt(val) >= 1, { message: 'La materia debe tener al menos 1 crédito' }),
-  semestre: z.string().min(1, 'Seleccione un semestre'),
+  semestre: z.number().min(1, 'Seleccione un semestre'),
 });
 
 export const semestreSchema = z.object({

@@ -4,15 +4,14 @@ import Tabla from '../../components/reutilizables/Tabla';
 
 const MateriasList = ({ materias, onEdit, onDelete, onView }) => {
   const columnas = [
-    { key: 'id', label: 'ID' },
+    { key: 'id', label: 'ID', render: (_, __, index) => index + 1 },
     { key: 'nombre', label: 'Nombre de la Materia' },
     { key: 'creditos', label: 'Creditos' },
 
-    // 🔥 CORRECCIÓN AQUÍ
     {
       key: 'semestre',
       label: 'Semestre',
-      render: (val) => val?.id
+      render: (val) => val?.nombre || '-'
     },
   ];
 

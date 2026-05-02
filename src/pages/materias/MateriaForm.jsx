@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { materiaSchema } from '../../utils/validations';
 import { soloNumeros } from '../../utils/helpers';
 import Boton from '../../components/reutilizables/Boton';
+import { getSemestres } from '../../service/semestreApi';
 
 const MateriaForm = ({ onSave, editingMateria, onCancel }) => {
+
+  const [listaSemestres, setListaSemestres] = useState([]);
+
+  useEffect(() => {
+    getSemestres().then(data => setListaSemestres(data)).catch(() => {});
+  }, []);
 
   const {
     register,
@@ -20,16 +27,15 @@ const MateriaForm = ({ onSave, editingMateria, onCancel }) => {
 
   useEffect(() => {
     if (editingMateria) {
-      Object.keys(editingMateria).forEach(key => {
-        if (key !== 'id') {
-          // 🔧 SI ES OBJETO, TOMAR SOLO EL ID
-          if (key === 'semestre' && editingMateria.semestre) {
-            setValue('semestre', editingMateria.semestre.id);
-          } else {
-            setValue(key, editingMateria[key]);
-          }
-        }
-      });
+      setValue('nombre', editingMateria.nombre || '');
+      setValue('creditos', editingMateria.creditos != null ? String(editingMateria.creditos) : '');
+      if (typeof editingMateria.semestre === 'object' && editingMateria.semestre !== null) {
+        setValue('semestre', Number(editingMateria.semestre.id));
+      } else if (editingMateria.semestre) {
+        setValue('semestre', Number(editingMateria.semestre));
+      } else {
+        setValue('semestre', 0);
+      }
     } else {
       reset();
     }
@@ -37,13 +43,11 @@ const MateriaForm = ({ onSave, editingMateria, onCancel }) => {
 
   const submitForm = (data) => {
 
-    // 🔴 VALIDACIÓN PARA EVITAR NaN
     if (!data.nombre || !data.creditos || data.semestre === 0) {
       alert("Completa todos los campos");
       return;
     }
 
-    // 🔥 YA VIENE COMO NÚMERO (NO MÁS NaN)
     const dataFormateada = {
       nombre: data.nombre,
       creditos: Number(data.creditos),
@@ -101,23 +105,17 @@ const MateriaForm = ({ onSave, editingMateria, onCancel }) => {
             )}
           </div>
 
-          {/* SEMESTRE */}
+          {/* SEMESTRE - Carga dinámica desde la BD */}
           <div className="form-group">
             <label>Semestre:</label>
             <select
               className={`input-base ${errors.semestre ? 'input-error' : ''}`}
-              {...register('semestre', { valueAsNumber: true })} // 🔥 CLAVE
+              {...register('semestre', { valueAsNumber: true })}
             >
               <option value={0}>Seleccione un semestre</option>
-              <option value={1}>Primer</option>
-              <option value={2}>Segundo</option>
-              <option value={3}>Tercer</option>
-              <option value={4}>Cuarto</option>
-              <option value={5}>Quinto</option>
-              <option value={6}>Sexto</option>
-              <option value={7}>Séptimo</option>
-              <option value={8}>Octavo</option>
-              <option value={9}>Noveno</option>
+              {listaSemestres.map((sem) => (
+                <option key={sem.id} value={sem.id}>{sem.nombre}</option>
+              ))}
             </select>
 
             {errors.semestre && (

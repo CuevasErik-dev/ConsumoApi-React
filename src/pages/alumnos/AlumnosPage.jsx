@@ -55,8 +55,8 @@ const AlumnosPage = () => {
           <div className="alumno-details">
 
             <div className="detail-row">
-              <span className="detail-label">NumControl:</span>
-              <span className="detail-value">{selectedAlumno.numControl}</span>
+              <span className="detail-label">Num. Control:</span>
+              <span className="detail-value">{selectedAlumno.numeroControl}</span>
             </div>
 
             <div className="detail-row">
@@ -71,7 +71,7 @@ const AlumnosPage = () => {
 
             <div className="detail-row">
               <span className="detail-label">Correo:</span>
-              <span className="detail-value">{selectedAlumno.correo}</span>
+              <span className="detail-value">{selectedAlumno.email}</span>
             </div>
 
             <div className="detail-row">

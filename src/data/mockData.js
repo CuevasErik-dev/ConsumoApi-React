@@ -1,29 +1,3 @@
-export const initialAlumnos = [
-  {
-    id: 1,
-    imagenURL: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-    numeroControl: '22620050',
-    nombre: 'Ameli',
-    apellido: 'Reyes',
-    email: 'amelireyes@gmail.com',
-    telefono: '9531236651',
-    carrera: 'Ingeniería en Sistemas Computacionales'
-  }
-];
-
-export const initialMaterias = [
-  { id: 1, nombre: 'Base de Datos', creditos: '5', semestre: 'Quinto' },
-  { id: 2, nombre: 'Programación Orientada a Objetos', creditos: '4', semestre: 'Segundo' },
-  { id: 3, nombre: 'Sistemas Operativos', creditos: '4', semestre: 'Sexto' },
-  { id: 4, nombre: 'Desarrollo Ágil', creditos: '4', semestre: 'Octavo' },
-  { id: 5, nombre: 'Estructura de Datos', creditos: '5', semestre: 'Tercero' },
-  { id: 6, nombre: 'Ingeniería de Software', creditos: '4', semestre: 'Séptimo' },
-];
-
-export const initialSemestres = [
-  { id: 1, nombre: '1er Sem 2024' },
-];
-
 export const alumnosData = [
   { name: '1er Sem', total: 180 },
   { name: '2do Sem', total: 165 },

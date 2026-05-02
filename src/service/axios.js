@@ -1,12 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_BASE_URL = "/api";
-
-export const api = axios.create({
-  baseURL: API_BASE_URL,
+const api = axios.create({
+  baseURL: "/api",
   headers: {
-    "Content-Type": "application/json",
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
 api.interceptors.response.use(
@@ -16,3 +14,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export default api;
